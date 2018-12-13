@@ -7,8 +7,10 @@ import numpy as np
 
 class Pocket_Algo:
 
-    def a(self):
-        pass
+    def __init__(self, InData):
+        # Input data set
+        self.InData = InData
+
 
     """
         Y = WX
@@ -18,7 +20,7 @@ class Pocket_Algo:
         return -> g : discriminating result
         """
 
-    def pla_process(X_variavle, W_coefficient):
+    def pla_process(self, X_variavle, W_coefficient):
         sum = X_variavle * W_coefficient
 
         if sum > 0:
@@ -29,25 +31,20 @@ class Pocket_Algo:
             return -1
         # return g
 
-    """
-    """
-
-    def pla_discriminate(gy, Y):
-        if gy == Y:
-            return True
-        else:
-            return False
 
     """
     Y = WX
     X_variavle : ndarray,設定X(vector)變數
     W_coefficient : ndarray,設定Ｗ(vector)係數
+    Y_label : 
+    gy : 分類結果
+    Eta : 
 
     return -> g : discriminating result
     """
-
-    def pla_update(X_variavle, W_coefficient, Y_label, Eta=1):
-        # rW_coefficient = W_coefficient + X_variavle*Y_label*Eta
-        return W_coefficient + X_variavle * Y_label * Eta
-
+    def pla_error(self, X_variavle, W_coefficient, Y_label, gy, Eta=1):
+        if gy == Y_label:
+            return True
+        else:
+            return W_coefficient + X_variavle * Y_label * Eta
 

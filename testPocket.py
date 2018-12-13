@@ -10,6 +10,7 @@ x0 = 1
 # training
 eta = 1
 updatetime = 0
+runtime = 0
 mistakeAll = 0
 mistakeAvg = 0
 R_mistake = 0
@@ -18,13 +19,14 @@ for i in range(0,1):
     x = set()
     mistake = 0
     w0, w1, w2, w3, w4 = 0, 0, 0, 0, 0
-    while(updatetime == 100):
+    while((updatetime <= 100) and (runtime<=2000)):
 
-        # randomNum = random.randrange(0,400)
+        # randomNum = random.randrange(0,500)
         randomNum = random.randint(0,499)
-
+        runtime= runtime + 1
         # input 變數 , x0例外
         x1, x2, x3, x4 = input[randomNum,0:4].astype('float')
+        print(input[randomNum,0:4])
         sum = x0 * w0 + x1 * w1 + x2 * w2 + x3 * w3 + x4 * w4
 
         if sum > 0:
@@ -32,8 +34,8 @@ for i in range(0,1):
         else:
             g = -1
 
+        print('g:' +str(g) + ' , ig:' + str(input[randomNum,4]))
         if g != input[randomNum,4]:
-            mistake = mistake + 1
             # ▵w = y*x * eta
             # w = w + ▵w
             w0 = w0 + x0 * input[randomNum,4] * eta
@@ -42,6 +44,7 @@ for i in range(0,1):
             w3 = w3 + x3 * input[randomNum,4] * eta
             w4 = w4 + x4 * input[randomNum,4] * eta
 
+            mistake = 0
             for i in input:
                 x1, x2, x3, x4 = i[0:4].astype('float')
                 sum = x0 * w0 + x1 * w1 + x2 * w2 + x3 * w3 + x4 * w4
@@ -54,11 +57,15 @@ for i in range(0,1):
                 if g != i[4]:
                     mistake = mistake + 1
 
-            if R_mistake > mistake:
-                if R_mistake != 0:
-                    updatetime = updatetime + 1
+
+            if(R_mistake>mistake)or(updatetime==0):
+                # if R_mistake != 0:
+                updatetime = updatetime + 1
                 R_mistake = mistake
                 rw0, rw1, rw2, rw3, rw4 = w0, w1, w2, w3, w4
+
+        print(str(updatetime)+ ' , R:'+ str(R_mistake)+ ' , r:'+ str(mistake))
+
 
     # pocket
     # if i == 0:
@@ -74,6 +81,7 @@ for i in range(0,1):
 # mistakeAvg = mistakeAll / 2000
 # print(mistakeAvg)
 
+print('--------')
 
 input = np.loadtxt('./hw1_18_test.dat')
 # Pocket algo.
